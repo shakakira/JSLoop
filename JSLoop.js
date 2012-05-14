@@ -15,7 +15,9 @@ var loop;
   loop = function () {
     var recur, nextdata, result, fn, args, len;
     args = slice.call(arguments);
-    fn = args.pop();;
+    //  Function to recurse is the last argument
+    fn = args.pop();
+    
     //  Define recurse
     recur = function () {
       //  Store the next iteration data
@@ -23,15 +25,20 @@ var loop;
       //  Pass back the continuation flag
       return recur;
     };
+    
     //  Use the initial data
     nextdata = args;
     //  Initial run, should iterate at least once
     result = recur;
+    
     //  While the user wishes to recurse
     while (result == recur) {
-      //  Execute the function, giving it recur and the next iteration data
+      //  Execute the function
+      //    giving it recur and the next iteration data
       result = fn.apply(undefined, [recur].concat(nextdata));
     }
+    
+    //  Return the result of the last iteration
     return result;
   };
 }());
